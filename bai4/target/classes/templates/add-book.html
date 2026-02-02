@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm sách</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(to right, #74ebd5, #9face6);
+        }
+
+        .container {
+            width: 40%;
+            margin: 60px auto;
+            background: white;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 15px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-save {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-save:hover {
+            background: #218838;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #555;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div th:replace="fragments/header :: siteHeader"></div>
+
+<div class="container">
+    <h1>➕ Thêm sách mới</h1>
+
+    <form th:action="@{/books/add}" method="post" th:object="${book}">
+        <label>Tiêu đề</label>
+        <input type="text" th:field="*{title}" required />
+
+        <label>Tác giả</label>
+        <input type="text" th:field="*{author}" required />
+
+        <button type="submit" class="btn btn-save">💾 Lưu sách</button>
+    </form>
+
+    <a th:href="@{/books}" class="back-link">⬅ Quay lại danh sách</a>
+</div>
+
+<!-- FOOTER -->
+<div th:replace="fragments/footer :: siteFooter"></div>
+
+</body>
+</html>

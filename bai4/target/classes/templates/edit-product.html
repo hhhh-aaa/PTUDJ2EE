@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sửa sản phẩm</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            margin-bottom: 15px;
+        }
+
+        form {
+            max-width: 420px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 4px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid #999;
+            box-sizing: border-box;
+        }
+
+        .error {
+            color: red;
+            font-size: 13px;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 7px 12px;
+            border: 1px solid #333;
+            background: white;
+            cursor: pointer;
+        }
+
+        img {
+            margin-top: 8px;
+            border: 1px solid #ccc;
+            padding: 4px;
+        }
+
+        .back {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<h1>Sửa sản phẩm</h1>
+
+<form th:action="@{/products/edit}"
+      th:object="${product}"
+      method="post"
+      enctype="multipart/form-data">
+
+    <input type="hidden" th:field="*{id}" />
+
+    <label>Tên sản phẩm</label>
+    <input type="text" th:field="*{name}" />
+    <div class="error" th:errors="*{name}"></div>
+
+    <label>Loại sản phẩm</label>
+    <select th:field="*{category}">
+        <option value="">-- Chọn --</option>
+        <option value="Laptop">Laptop</option>
+        <option value="Điện thoại">Điện thoại</option>
+    </select>
+    <div class="error" th:errors="*{category}"></div>
+
+    <label>Giá</label>
+    <input type="number" th:field="*{price}" />
+    <div class="error" th:errors="*{price}"></div>
+
+    <label>Ảnh hiện tại</label>
+    <img th:if="${product.imageUrl}" th:src="${product.imageUrl}" width="150"/>
+
+    <label>Chọn ảnh mới (nếu muốn thay)</label>
+    <input type="file" th:field="*{imageFile}" accept="image/*" />
+
+    <button type="submit">Cập nhật sản phẩm</button>
+</form>
+
+<div class="back">
+    <a th:href="@{/products}">← Quay lại danh sách</a>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách sách</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(to right, #74ebd5, #9face6);
+        }
+
+        .container {
+            width: 85%;
+            margin: 40px auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+        }
+
+        .top-bar {
+            text-align: right;
+            margin-bottom: 15px;
+        }
+
+        .btn-add {
+            background: #28a745;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-add:hover {
+            background: #218838;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        th {
+            background: #4e73df;
+            color: white;
+            padding: 12px;
+            text-align: center;
+        }
+
+        td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background: #f2f2f2;
+        }
+
+        .action a {
+            padding: 6px 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            color: white;
+            font-size: 14px;
+        }
+
+        .edit {
+            background: #ffc107;
+        }
+
+        .edit:hover {
+            background: #e0a800;
+        }
+
+        .delete {
+            background: #dc3545;
+        }
+
+        .delete:hover {
+            background: #c82333;
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div th:replace="fragments/header :: siteHeader"></div>
+
+<div class="container">
+    <h1>📚 Danh sách sách</h1>
+
+    <div class="top-bar">
+        <a th:href="@{/books/add}" class="btn-add">+ Thêm sách mới</a>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tiêu đề</th>
+            <th>Tác giả</th>
+            <th>Hành động</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="book : ${books}">
+            <td th:text="${book.id}"></td>
+            <td th:text="${book.title}"></td>
+            <td th:text="${book.author}"></td>
+            <td class="action">
+                <a th:href="@{/books/edit/{id}(id=${book.id})}" class="edit">Sửa</a>
+                <a th:href="@{/books/delete/{id}(id=${book.id})}" class="delete"
+                   onclick="return confirm('Bạn có chắc muốn xóa sách này?')">Xóa</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- FOOTER -->
+<div th:replace="fragments/footer :: siteFooter"></div>
+
+</body>
+</html>

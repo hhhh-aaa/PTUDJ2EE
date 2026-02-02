@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div th:fragment="siteHeader">
+    <header style="background:#222; color:white; padding:15px">
+        <h2>📘 Website Quản Lý sản phẩm</h2>
+        <nav>
+            <a th:href="@{/}" style="color:white; margin-right:15px">Trang chủ</a>
+            <a th:href="@{/products}" style="color:white;">Danh sách sản phẩm</a>
+        </nav>
+    </header>
+</div>
+</body>
+</html>
