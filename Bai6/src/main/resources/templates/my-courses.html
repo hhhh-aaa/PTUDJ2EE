@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8" />
+    <title>My Courses</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<div class="page">
+    <header class="header">
+        <h1>My Courses</h1>
+        <div class="header-actions">
+            <a th:href="@{/home}">Home</a>
+            <span sec:authorize="isAuthenticated()">
+                Logged in as <b sec:authentication="name"></b> | <a th:href="@{/logout}">Logout</a>
+            </span>
+        </div>
+    </header>
+    <main>
+        <div th:if="${enrollments.isEmpty()}">You have not enrolled in any courses yet.</div>
+        <ul class="course-list">
+            <li th:each="enrollment : ${enrollments}">
+                <div class="course-item">
+                    <img th:src="${enrollment.course.imageUrl}" alt="Course image" class="course-thumb"/>
+                    <div>
+                        <h2 th:text="${enrollment.course.name}">Course name</h2>
+                        <p><strong>Lecturer:</strong> <span th:text="${enrollment.course.lecturer}">Lecturer</span></p>
+                        <p><strong>Credits:</strong> <span th:text="${enrollment.course.credits}">0</span></p>
+                        <p><strong>Enrolled on:</strong> <span th:text="${#temporals.format(enrollment.enrollDate, 'dd MMM yyyy')}"/></p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </main>
+</div>
+</body>
+</html>

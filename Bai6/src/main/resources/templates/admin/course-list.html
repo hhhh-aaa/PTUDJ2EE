@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8" />
+    <title>Manage Courses</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<div class="page">
+    <header class="header">
+        <h1>Admin - Manage Courses</h1>
+        <div class="header-actions">
+            <a th:href="@{/home}">Home</a>
+            <a th:href="@{/logout}">Logout</a>
+        </div>
+    </header>
+    <main>
+        <div class="admin-actions">
+            <a th:href="@{/admin/courses/new}" class="button">Add Course</a>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Credits</th>
+                    <th>Lecturer</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="course : ${courses}">
+                    <td th:text="${course.id}">1</td>
+                    <td th:text="${course.name}">Name</td>
+                    <td th:text="${course.credits}">0</td>
+                    <td th:text="${course.lecturer}">Lecturer</td>
+                    <td>
+                        <a th:href="@{/admin/courses/edit/{id}(id=${course.id})}">Edit</a>
+                        <a th:href="@{/admin/courses/delete/{id}(id=${course.id})}" onclick="return confirm('Delete this course?');">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+</div>
+</body>
+</html>
