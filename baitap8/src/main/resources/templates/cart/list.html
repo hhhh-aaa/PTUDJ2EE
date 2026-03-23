@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8" />
+    <title>Giỏ Hàng</title>
+    <style>
+        body { font-family: Arial, sans-serif; background:#f5f5f5; padding:20px; }
+        .container { max-width: 1000px; margin:0 auto; background:#fff; border-radius:8px; padding:20px; }
+        table { width:100%; border-collapse: collapse; margin-bottom: 20px; }
+        th,td{padding:10px; border:1px solid #ddd;}
+        .summary { text-align:right; margin-top:10px; }
+        .btn { color:#fff; background:#667eea; border:none;padding:8px 12px;border-radius:4px;text-decoration:none; }
+        .danger { background:#d32f2f; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🛒 Giỏ hàng</h1>
+
+    <div th:if="${#lists.isEmpty(items)}">
+        <p>Giỏ hàng trống. Mời bạn quay lại <a th:href="@{/books}">danh sách sách</a>.</p>
+    </div>
+
+    <div th:if="${!#lists.isEmpty(items)}">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Hình ảnh</th>
+                <th>Tiêu đề</th>
+                <th>Giá</th>
+                <th>Số lượng</th>
+                <th>Thành tiền</th>
+                <th>Hành động</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${items}">
+                <td th:text="${item.book.id}"></td>
+                <td style="text-align: center;">
+                    <img th:src="@{/images/{filename}(filename=${item.book.imageUrl})}" style="width: 50px; height: 70px; object-fit: cover; border-radius: 3px;" 
+                         th:onerror="this.src='/images/default-book.svg'" alt="Book image"/>
+                </td>
+                <td th:text="${item.book.title}"></td>
+                <td th:text="${#numbers.formatDecimal(item.book.price, 1, 'COMMA', 2, 'POINT')}"></td>
+                <td>
+                    <form th:action="@{/cart/update}" method="post" style="display:inline-flex; align-items:center; gap:6px;">
+                        <input type="hidden" name="bookId" th:value="${item.book.id}" />
+                        <input type="number" name="quantity" th:value="${item.quantity}" min="1" style="width:70px;" />
+                        <button type="submit" class="btn">Cập nhật</button>
+                    </form>
+                </td>
+                <td th:text="${#numbers.formatDecimal(item.subtotal, 1, 'COMMA', 2, 'POINT')}"></td>
+                <td>
+                    <a th:href="@{/cart/remove/{id}(id=${item.book.id})}" class="btn danger">Xóa</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="summary">
+            <p>Số lượng: <strong th:text="${totalQuantity}"></strong></p>
+            <p>Tổng tiền: <strong th:text="${#numbers.formatDecimal(totalAmount, 1, 'COMMA', 2, 'POINT')}"></strong></p>
+        </div>
+
+        <a th:href="@{/books}" class="btn" style="margin-right:10px;">Tiếp tục mua</a>
+        <a th:href="@{/orders/checkout}" class="btn" style="margin-right:10px;">Thanh toán</a>
+        <a th:href="@{/cart/clear}" class="btn danger">Xóa giỏ hàng</a>
+    </div>
+</div>
+</body>
+</html>
